@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const fs = require('fs');
+const path = require('path');
 
 function ChecksumPlugin( options ) {
     this.options = options;
@@ -20,10 +21,12 @@ ChecksumPlugin.prototype.apply = function(compiler) {
         let checksums = [];
 
         Object.keys(compilation.assets).forEach( function(filename) {
-            const asset = fs.readFileSync( `${options.distPath}/${filename}` );
-            const hash = crypto.createHash('md5').update(asset).digest('hex');
-            const assetFilepath = options.assetPath + filename;
-            const checksumEntry = checksumPattern.replace('hash', hash).replace('filepath', assetFilepath);
+            const asset = compilation.assets[filename];
+            const absolutePath = asset.existsAt;
+            const publicPath = absolutePath.substr( absolutePath.indexOf( options.assetPath ) + options.assetPath.length );
+            const file = fs.readFileSync( absolutePath );
+            const hash = crypto.createHash('md5').update(file).digest('hex');
+            const checksumEntry = checksumPattern.replace('hash', hash).replace('filepath', options.assetPath + publicPath);
 
             checksums.push( checksumEntry );
         } );
