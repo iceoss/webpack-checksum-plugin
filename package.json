@@ -1,0 +1,28 @@
+{
+  "name": "webpack-checksum-plugin",
+  "version": "1.0.0",
+  "description": "Webpack plugin to generate checksums for outputted files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iceoss/webpack-checksum-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "checksums",
+    "md5",
+    "hash",
+    "plugin",
+    "output",
+    "file"
+  ],
+  "author": "Owen Conti <oconti@icehealthsystems.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/iceoss/webpack-checksum-plugin/issues"
+  },
+  "homepage": "https://github.com/iceoss/webpack-checksum-plugin#readme"
+}
