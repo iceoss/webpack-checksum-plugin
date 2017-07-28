@@ -10,15 +10,22 @@ ChecksumPlugin.prototype.apply = function(compiler) {
     const options = this.options;
     const checksumFilepath = `${options.distPath}/${options.outputFilename || 'checksums'}`;
     const checksumPattern = options.checksumPattern || 'hash:filepath';
+    const resetChecksumFile = options.resetChecksumFile || false;
 
     // Setup callback for accessing a compilation:
     compiler.plugin('after-emit', function(compilation, callback) {
-
-        // reset checksums
-        fs.writeFileSync( checksumFilepath, '', {
-            encoding: 'utf8'
-        } );
         let checksums = [];
+
+        if ( resetChecksumFile ) {
+            // reset checksums
+            fs.writeFileSync( checksumFilepath, '', {
+                encoding: 'utf8'
+            } );
+        } else {
+            if ( fs.existsSync(checksumFilepath) ) {
+                checksums = fs.readFileSync(checksumFilepath, 'utf8').split('\n');
+            }
+        }
 
         Object.keys(compilation.assets).forEach( function(filename) {
             const asset = compilation.assets[filename];
